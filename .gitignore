@@ -130,3 +130,6 @@ dmypy.json
 
 # HDF5 data file (temp)
 *h5
+
+# output files
+/output/*

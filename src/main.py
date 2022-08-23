@@ -9,9 +9,11 @@ import setting
 
 sys.path.append(config.visit_path) # path to functions from visit into the python
 sys.path.append(config.visit_exec_path) # execution path of VisIt
+sys.path.insert(1, config.plots_path) # execution path of plots
+sys.path.insert(1, config.camera_path) # execution path of plots
 
 import visit as vst
-from plot_volume import set_volume_plot
+from plots import volume
 
 if __name__ == "__main__":
 
@@ -35,7 +37,7 @@ if __name__ == "__main__":
             # volume plot.
             vst.AddPlot("Volume", scalar_field_name)
             volume_attr = vst.VolumeAttributes()
-            set_volume_plot(vst, volume_attr)
+            volume.set_volume_plot(vst, volume_attr)
             vst.SetPlotOptions(volume_attr)
 
             # pseudocolor plot.

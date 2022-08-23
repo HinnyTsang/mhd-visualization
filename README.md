@@ -5,18 +5,17 @@ VisIt version installed in Rivanna: VisIt v3.0.0 [(user manuel)](https://visit-s
 
 * Python 2.7 is needed. see [issue](https://github.com/visit-dav/visit/issues/4648).
 
-## Test file
-./scorpio-out/g1040_0021.h5
+<!-- ## Test file
+./scorpio-out/g1040_0021.h5 -->
 
-## Input file format:
+## Input file format (Right Now):
 - HDF5
 
 ## Overall Design
-- main.py
-- read_file.py  --- convert file to the format used in the plot
-- setting.py   --- customize the plot / animation
-- plot.py --- mode of output
-- animation.py --- mode of output
+- `main.py`
+- `setting.py`   --- I/O setting & plot settings
+- `config.py` --- The environment path settings.
+- `plot_volume.py` --- Plot scalar fields.
 - iso_surface --- plot scalar field
   - iso_surface.py
   - color_pallete.py

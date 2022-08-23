@@ -109,11 +109,11 @@ def set_volume_plot(vst, volume_attr):
     # setting control points attributes.
     for i, gaussian_control_point in enumerate(gaussian_control_points):
         # width of the distribution
-        gaussian_control_point.SetWidth(0.05)
+        gaussian_control_point.SetWidth(0.005)
         # x position of the opacity: [0, 1]
-        gaussian_control_point.SetX(i/10)
+        gaussian_control_point.SetX(float(i) / n_points)
         # opacity value at the peak of the distribution: [0, 1]
-        gaussian_control_point.SetHeight(i/10)
+        gaussian_control_point.SetHeight(float(i) / n_points)
 
         # Add the control point to the control points list.
         opacity_control_points.AddControlPoints(gaussian_control_point)

@@ -15,11 +15,11 @@ plot_vector_field_names = ['']
 
 # output file path.
 output_file_name = r"g1040_0021"
-output_file_path = r"../plots/"
+output_file_path = r"../output/"
 
 # other output settings:
 # avilable options: 'png', 'jpeg'
 output_file_format = r"png"
 
-figure_width = 1024
-figure_height = 768
+figure_width = 1024*2
+figure_height = 768*2
