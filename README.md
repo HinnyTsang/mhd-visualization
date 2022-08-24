@@ -17,26 +17,23 @@ VisIt version installed in Rivanna: VisIt v3.0.0 [(user manuel)](https://visit-s
 
 To plot with time evolution, Athena++ creat a series of files, with following name pattern `<prefix>.hydro.<file_id>.athdf` & `<prefix>.hydro.<file_id>.athdf.xdmf`. Although VisIt could automatically group the files as a database, it is recommoned to create a `.visit` file which contains the list of files for the plot (see [VisIt docs](https://visit-sphinx-github-user-manual.readthedocs.io/en/v3.0.0/gui_manual/Animation/Animation_basics.html#the-visit-file)). An example of `.visit` could be found in the `test` folder.
 
-## Plotting Mode
+## Plotting Modes
 1. Fix camera, time evolve.
 2. Single snapshot, moving camera.
 3. Moving Camera, time evolve.
 4. Single snapshot, fixed camera.
 
-## Overall Design
+## File structure in `./src`
 - `main.py`
 - `setting.py`   --- I/O setting & plot settings
 - `config.py` --- The environment path settings.
-- `plot_volume.py` --- Plot scalar fields.
-- iso_surface --- plot scalar field
-  - iso_surface.py
-  - color_pallete.py
-- stream_line --- plot vector field
-  - stream_line.py
-  - color_pallete.py
-  - density.py
-  - seed.py
-
+- `plots/` --- Setting for different plots.
+  - `volume.py` --- volume plot for visualising scalar fields.
+  - `streamline.py` --- streamline plit for visuzlising vector fields.
+- `camera/` --- Setting for static/moving camera
+  - `camera.py ` --- setting camera.
+  - `default_track/` --- defult moving camera settings.
+    - `rotation.py` --- setting for rotation around the $z$ axis.
 ## Cooding style
 Follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
 
