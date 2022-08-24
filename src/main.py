@@ -4,6 +4,7 @@ import sys
     currently working on VisIt v3.0.0 (Python 2.7)
 """
 import os
+import errno
 import config
 import setting
 
@@ -13,7 +14,8 @@ sys.path.insert(1, config.plots_path) # execution path of plots
 sys.path.insert(1, config.camera_path) # execution path of plots
 
 import visit as vst
-from plots import volume
+from plots import volume # for volume plot
+from camera import camera # for animation or setting view points.
 
 if __name__ == "__main__":
 
@@ -21,72 +23,87 @@ if __name__ == "__main__":
     # !!! make sure that 'visit' is in the shell's code !!! 
     vst.Launch() 
 
-    # TODO read files.
-    vst.OpenDatabase(os.path.join(setting.input_file_path, setting.input_file_name))
+    # check file extension, if it is a 'visit' file, treat it as a series of files.
+    input_file_full_path = os.path.join(setting.input_file_path, setting.input_file_name)
+    input_file_ext = os.path.splitext(input_file_full_path)[1]
+
+    if not os.path.exists(input_file_full_path):
+        raise OSError(errno.ENOENT, os.strerror(errno.ENOENT), input_file_full_path)
+
+    if input_file_ext == ".visit":
+        input_file_names = open(input_file_full_path).readlines()
+        input_file_names = [file.strip() for file in input_file_names]
+    else:
+        input_file_names = [setting.input_file_name]
 
 
-    # TODO plot the scalar field.
-    if len(setting.plot_scalar_field_names) > 0:
+    # Loop through all files.
+    for input_file_id, input_file_name in enumerate(input_file_names):
         
-        for scalar_field_name in setting.plot_scalar_field_names:
-            
+        input_file_full_name = os.path.join(setting.input_file_path, input_file_name)
+        
+        if not os.path.exists(input_file_full_path):
+            raise OSError(errno.ENOENT, os.strerror(errno.ENOENT), input_file_full_name)
+
+        # TODO read files.
+        print "Reading file %s" % (input_file_full_name)
+
+
+        if not vst.OpenDatabase(input_file_full_name, 0, "Pixie"):
+            raise OSError(errno.ENOENT, os.strerror(errno.ENOENT), input_file_full_name)
+
+        # TODO plot the scalar field.
+        for scalar_field_name in setting.plot_scalar_field_names:            
             print r"Plotting scalar field: %s" % (scalar_field_name)
-
-            # print vst.OperatorPlugins()
-
-            # volume plot.
             vst.AddPlot("Volume", scalar_field_name)
             volume_attr = vst.VolumeAttributes()
             volume.set_volume_plot(vst, volume_attr)
             vst.SetPlotOptions(volume_attr)
 
-            # pseudocolor plot.
-            # vst.AddOperator("Isosurface")
+        # TODO plot vector field.
+        for vector_field_x, vector_field_y, vector_field_z in setting.plot_vector_field_names:
             
-            # pseudocolor_attr = vst.PseudocolorAttributes()
-            # pseudocolor_attr.colorTableName = "rainbow"
-            # pseudocolor_attr.opacity = 0.1
-            # vst.SetPlotOptions(pseudocolor_attr)
+            print r"Plotting scalar field: %s, %s, %s" % (vector_field_x, vector_field_y, vector_field_z)
+            # TODO plot vector field.
+
+        # TODO plot scatter points.
+        # ----------------------------
+
+        # ----------------------------
+        
+        # TODO camera setting
+        if setting.animation == True:
+            # TODO animation
+            camera.set_animate(vst)
+            pass
+        else:
+            # TODO set view points & camera angle.
+            view = vst.GetView3D()
+            camera.set_view(view)
+            vst.SetView3D(view)
 
 
-            # isosurface_attr = vst.IsosurfaceAttributes()
-            # # isosurface_attr.opacity = 0.5
-            # vst.SetOperatorOptions(isosurface_attr)
+        # TODO draw the plots
+        draw_plots_state = vst.DrawPlots()
+        if draw_plots_state == 0: sys.exit("Couldn't generate plot")
+        
+        # TODO save output files
+        # SaveWindowAttributes object for save file.
+        save_window = vst.SaveWindowAttributes()
 
-
-            # vst.AddPlot("Pseudocolor", scalar_field_name)
-            # pseudocolor_attr.colorTableName = "rainbow"
-            # pseudocolor_attr.opacity = 0.1     
-            # vst.SetPlotOptions(pseudocolor_attr)
-
-            # draw all plots  
-            draw_plots_state = vst.DrawPlots()
-
-
-
-            if draw_plots_state == 0:
-                print "Couldn't generate plot"
-                sys.exit()
-            
-
-    # TODO plot vector field.
-
-    # TODO plot scatter points.
-
-    # TODO save output files
-    # SaveWindowAttributes object for save file.
-    save_window = vst.SaveWindowAttributes()
-
-    # loading the user settings.
-    save_window.format   = save_window.PNG
-    save_window.fileName = os.path.join(setting.output_file_path, setting.output_file_name)
-    save_window.width    = setting.figure_width 
-    save_window.height   = setting.figure_height
-    save_window.screenCapture   = 0
-    
-    vst.SetSaveWindowAttributes(save_window)
-    save_file_name = vst.SaveWindow()
+        # loading the user settings.
+        save_window.format   = save_window.PNG
+        save_window.fileName = os.path.join(setting.output_file_path, r"%s_%05d" % (setting.output_file_name, input_file_id))
+        save_window.width    = setting.figure_width 
+        save_window.height   = setting.figure_height
+        save_window.screenCapture   = 0
+        
+        vst.SetSaveWindowAttributes(save_window)
+        save_file_name = vst.SaveWindow()
+        print r"%s saved." % (save_file_name)       
+        
+        # clear the current plot.
+        vst.DeleteActivePlots()
 
     # close the viewer
     vst.Close()
-    print r"%s saved." % (save_file_name)

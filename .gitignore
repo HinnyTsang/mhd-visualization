@@ -133,3 +133,6 @@ dmypy.json
 
 # output files
 /output/*
+
+# visit file
+*.visit
