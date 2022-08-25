@@ -1,6 +1,0 @@
-{
-    "python.linting.enabled": true,
-    "python.linting.pylintEnabled": true,
-    "editor.lightbulb.enabled": true,
-    "python.analysis.extraPaths": ["C:\\Users\\hinhi\\AppData\\VisIt\\LLNL\\VisIt 3.0.2\\lib\\site-packages", "C:\\Users\\hinhi\\AppData\\VisIt\\LLNL\\VisIt 3.0.2"]
-}
