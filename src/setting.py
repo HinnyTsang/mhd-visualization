@@ -3,10 +3,10 @@
 """
 
 # input file path.
-input_file_name = r"g1040_0021.h5" 
-input_file_name = r"g1052.visit" 
-input_file_path = r"../scorpio-out/"
-input_file_path = r"../scorpio-out/g1052/"
+input_file_name = r"g1040_0021.h5"
+input_file_name = r"g1052.visit"
+input_file_path = r"./scorpio-out/"
+input_file_path = r"./scorpio-out/g1052/"
 
 
 # plot setting
@@ -16,7 +16,7 @@ plot_vector_field_names = [['bx', 'by', 'bz']] # field name in a list ['vec_x', 
 # output file path.
 output_file_name = r"g1040_0021"
 output_file_name = r"g1052"
-output_file_path = r"../output/"
+output_file_path = r"./output/"
 
 # other output settings:
 # avilable options: 'png', 'jpeg'

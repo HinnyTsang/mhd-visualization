@@ -3,7 +3,7 @@
 Python scripts to generate 3D animation / plot using [VisIt](https://visit-dav.github.io/visit-website/index.html).
 VisIt version installed in Rivanna: VisIt v3.0.0 [(user manuel)](https://visit-sphinx-github-user-manual.readthedocs.io/en/v3.0.0/cli_manual)
 
-* Python 2.7 is needed. see [issue](https://github.com/visit-dav/visit/issues/4648).
+* Python 2.7 is required. see [issue](https://github.com/visit-dav/visit/issues/4648).
 
 <!-- ## Test file
 ./scorpio-out/g1040_0021.h5 -->

@@ -136,3 +136,8 @@ dmypy.json
 
 # visit file
 *.visit
+
+# local config
+.git/
+.vscode/
+*.env
