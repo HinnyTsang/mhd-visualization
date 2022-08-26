@@ -132,7 +132,7 @@ dmypy.json
 *h5
 
 # output files
-/output/*
+# /output/
 
 # visit file
 *.visit
