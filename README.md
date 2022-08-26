@@ -17,11 +17,11 @@ VisIt version installed in Rivanna: VisIt v3.0.0 [(user manuel)](https://visit-s
 
 To plot with time evolution, Athena++ creat a series of files, with following name pattern `<prefix>.hydro.<file_id>.athdf` & `<prefix>.hydro.<file_id>.athdf.xdmf`. Although VisIt could automatically group the files as a database, it is recommoned to create a `.visit` file which contains the list of files for the plot (see [VisIt docs](https://visit-sphinx-github-user-manual.readthedocs.io/en/v3.0.0/gui_manual/Animation/Animation_basics.html#the-visit-file)). An example of `.visit` could be found in the `test` folder.
 
-## Plotting Modes
-1. Fix camera, time evolve.
-2. Single snapshot, moving camera.
-3. Moving Camera, time evolve.
-4. Single snapshot, fixed camera.
+## Modes
+1. fix camera, time evolve
+2. moving camera, sngle snapshot
+3. moving camera, time evolve
+4. fix camera, single snapshopt
 
 ## File structure in `./src`
 - `main.py`

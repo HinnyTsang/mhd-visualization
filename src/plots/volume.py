@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Setting for volume plot
 """
@@ -14,127 +15,63 @@ def sigmoid(n_points, x, scale):
     """
     pass
 
-def set_volume_plot(vst, volume_attr): 
-    """
-        Available setting
-        'GetColorControlPoints',
-        'GetColorVarMax',
-        'GetColorVarMin',
-        'GetCompactVariable',
-        'GetFreeformOpacity',
-        'GetGradientType',
-        'GetLegendFlag',
-        'GetLightingFlag',
-        'GetLimitsMode',
-        'GetLowGradientLightingClampFlag',
-        'GetLowGradientLightingClampValue',
-        'GetLowGradientLightingReduction',
-        'GetMaterialProperties',
-        'GetOpacityAttenuation',
-        'GetOpacityControlPoints',
-        'GetOpacityMode',
-        'GetOpacityVarMax',
-        'GetOpacityVarMin',
-        'GetOpacityVariable',
-        'GetOsprayAoDistance',
-        'GetOsprayAoSamples',
-        'GetOsprayAoTransparencyEnabledFlag',
-        'GetOsprayMinContribution',
-        'GetOsprayOneSidedLightingFlag',
-        'GetOsprayPreIntegrationFlag',
-        'GetOsprayShadowsEnabledFlag',
-        'GetOspraySingleShadeFlag',
-        'GetOspraySpp',
-        'GetOsprayUseGridAcceleratorFlag',
-        'GetRendererSamples',
-        'GetRendererType',
-        'GetResampleFlag',
-        'GetResampleTarget',
-        'GetSamplesPerRay',
-        'GetSampling',
-        'GetScaling',
-        'GetSkewFactor',
-        'GetSmoothData',
-        'GetUseColorVarMax',
-        'GetUseColorVarMin',
-        'GetUseOpacityVarMax',
-        'GetUseOpacityVarMin',
-        'Notify',
-        'SetColorControlPoints',
-        'SetColorVarMax',
-        'SetColorVarMin',
-        'SetCompactVariable',
-        'SetFreeformOpacity',
-        'SetGradientType',
-        'SetLegendFlag',
-        'SetLightingFlag',
-        'SetLimitsMode',
-        'SetLowGradientLightingClampFlag',
-        'SetLowGradientLightingClampValue',
-        'SetLowGradientLightingReduction',
-        'SetMaterialProperties',
-        'SetOpacityAttenuation',
-        'SetOpacityControlPoints',
-        'SetOpacityMode',
-        'SetOpacityVarMax',
-        'SetOpacityVarMin',
-        'SetOpacityVariable',
-        'SetOsprayAoDistance',
-        'SetOsprayAoSamples',
-        'SetOsprayAoTransparencyEnabledFlag',
-        'SetOsprayMinContribution',
-        'SetOsprayOneSidedLightingFlag',
-        'SetOsprayPreIntegrationFlag',
-        'SetOsprayShadowsEnabledFlag',
-        'SetOspraySingleShadeFlag',
-        'SetOspraySpp',
-        'SetOsprayUseGridAcceleratorFlag',
-        'SetRendererSamples',
-        'SetRendererType',
-        'SetResampleFlag',
-        'SetResampleTarget',
-        'SetSamplesPerRay',
-        'SetSampling',
-        'SetScaling',
-        'SetSkewFactor',
-        'SetSmoothData',
-        'SetUseColorVarMax',
-        'SetUseColorVarMin',
-        'SetUseOpacityVarMax',
-        'SetUseOpacityVarMin'
+def set_volume_plot(VisIt, field_name): 
+    """Initialze the volume plot.
+
+    Args:
+        VisIt (Any): VisIt module
+        field_name (str): name of the scalar field.
+
+    Returns:
+        None
     """
 
-    # FreeformMode, GaussianMode, ColorTableMode
+    VisIt.AddPlot("Volume", field_name) # Initialize the plot
+    volume_attr = VisIt.VolumeAttributes()
+    
     volume_attr.SetOpacityMode(1)
-
-    # opacity_var_max = volume_attr.GetOpacityVarMax()
-    # opacity_var_min = volume_attr.GetOpacityVarMin()
+    # Mode of Opacity, 1: FreeformMode, 2: GaussianMode, 3: ColorTableMode.
 
     opacity_control_points = volume_attr.GetOpacityControlPoints()
+    """Control points container of the volume plot."""
 
-    # scalar field setting, default, linear
     n_points = 10
+    """Number of opacity control points, default, linear"""
 
-    # create gaussian control points
-    gaussian_control_points = [vst.GaussianControlPoint() for _ in range(n_points)]
+    gaussian_control_points = [VisIt.GaussianControlPoint() for _ in range(n_points)]
+    """create gaussian control points"""
 
     # setting control points attributes.
     for i, gaussian_control_point in enumerate(gaussian_control_points):
 
-        gaussian_control_point.SetWidth(0.01) # width of the distribution 
-        gaussian_control_point.SetX(min([float(i) / n_points, 1])) # x position of the opacity: [0, 1]
-        gaussian_control_point.SetHeight(min([float(i) / n_points * 3, 1])) # opacity value at the peak of the distribution: [0, 1]
+        # STEP 1: width of the distribution 
+        gaussian_control_point.SetWidth(0.01)
+        # STEP 2: x position of the opacity: [0, 1]
+        gaussian_control_point.SetX(min([float(i) / n_points, 1]))
+        # STEP 3: opacity value at the peak of the distribution: [0, 1]
+        gaussian_control_point.SetHeight(min([float(i) / n_points * 3, 1]))
 
+        # STEP 4: set skewness of the gaussizn
+        gaussian_control_point.SetXBias(0)
+        gaussian_control_point.SetYBias(0)
 
     # Add the control point to the control points list.
-    for gaussian_control_point in gaussian_control_points:        
+    for gaussian_control_point in gaussian_control_points:
         opacity_control_points.AddControlPoints(gaussian_control_point)
 
     # update the control points to the volume plot.
     volume_attr.SetOpacityControlPoints(opacity_control_points)
 
+    # default setting.
+    volume_attr.resampleFlag = 1
+    volume_attr.resampleTarget = 1000000
+    volume_attr.opacityVariable = "default"
+    volume_attr.compactVariable = "default"
+
+
+
     # update the plot options to VisIt
-    vst.SetPlotOptions(volume_attr)
+    VisIt.SetPlotOptions(volume_attr)
 
 if __name__ == "__main__":
     pass

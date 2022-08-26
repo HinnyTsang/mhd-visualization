@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 """
     Setting for streamline plot
 """
 
-def set_stream_plot(vst, volume_attr): 
+def set_stream_plot(VisIt, volume_attr): 
     """
        
     """
@@ -19,7 +20,7 @@ def set_stream_plot(vst, volume_attr):
     n_points = 10
 
     # create gaussian control points
-    gaussian_control_points = [vst.GaussianControlPoint() for _ in range(n_points)]
+    gaussian_control_points = [VisIt.GaussianControlPoint() for _ in range(n_points)]
 
     # setting control points attributes.
     for i, gaussian_control_point in enumerate(gaussian_control_points):
@@ -37,7 +38,7 @@ def set_stream_plot(vst, volume_attr):
     volume_attr.SetOpacityControlPoints(opacity_control_points)
 
     # update the plot options to VisIt
-    vst.SetPlotOptions(volume_attr)
+    VisIt.SetPlotOptions(volume_attr)
 
 if __name__ == "__main__":
     pass
