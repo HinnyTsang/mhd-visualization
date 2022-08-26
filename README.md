@@ -26,7 +26,7 @@ To plot with time evolution, Athena++ creat a series of files, with following na
 ## File structure in `./src`
 - `main.py`
 - `setting.py`   --- I/O setting & plot settings
-- `config.py` --- The environment path settings.
+- `read_data.py` --- Read database to VisIt.
 - `plots/` --- Setting for different plots.
   - `volume.py` --- volume plot for visualising scalar fields.
   - `streamline.py` --- streamline plit for visuzlising vector fields.
@@ -34,7 +34,8 @@ To plot with time evolution, Athena++ creat a series of files, with following na
   - `camera.py ` --- setting camera.
   - `default_track/` --- defult moving camera settings.
     - `rotation.py` --- setting for rotation around the $z$ axis.
+- `save/`
+  - `save.py`  --- setting for generating output
+
 ## Cooding style
 Follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
-
-
